@@ -1,2 +1,36 @@
 ---
 # tasks file for nainterceptor.gogs
+- name: "Import key"
+  shell: "rpm --import https://rpm.packager.io/key"
+  when: ansible_distribution == 'CentOS'
+
+- name: "Copy repo file"
+  copy:
+    src: "../files/{{ ansible_distribution }}/gogs.repo"
+    dest: "/etc/yum.repos.d/gogs.repo"
+  when: ansible_distribution == 'CentOS'
+
+- name: "Ensure apache is absent"
+  yum: name=httpd state=absent
+  when: ansible_distribution == 'CentOS'
+
+- name: "Install gogs & nginx packages"
+  yum: name={{ item }} state=present
+  when: ansible_distribution == 'CentOS'
+  with_items:
+    - gogs
+    - nginx
+
+- name: "Configure gogs"
+  template: src=../files/{{ ansible_distribution }}/gogs.app.ini.j2 dest=/etc/gogs/conf/app.ini
+  when: ansible_distribution == 'CentOS'
+  notify:
+    - Enable gogs
+    - Restart gogs
+
+- name: "Configure nginx"
+  template: src=../files/{{ ansible_distribution }}/nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  when: ansible_distribution == 'CentOS'
+  notify:
+    - Enable nginx
+    - Restart nginx

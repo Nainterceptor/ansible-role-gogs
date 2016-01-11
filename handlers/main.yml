@@ -1,2 +1,27 @@
 ---
 # handlers file for nainterceptor.gogs
+- name: "Restart nginx"
+  service:
+    name: nginx
+    state: restarted
+  when: ansible_distribution == 'CentOS'
+
+- name: "Restart gogs"
+  service:
+    name: gogs-web
+    state: restarted
+  when: ansible_distribution == 'CentOS'
+
+- name: "Enable nginx"
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  when: ansible_distribution == 'CentOS'
+
+- name: "Enable gogs"
+  service:
+    name: gogs-web
+    state: started
+    enabled: yes
+  when: ansible_distribution == 'CentOS'
