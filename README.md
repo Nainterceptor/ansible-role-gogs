@@ -1,4 +1,4 @@
-Nainterceptor.common
+Nainterceptor.gogs
 ====================
 
 Role used to install Gogs on CentOS with yum
