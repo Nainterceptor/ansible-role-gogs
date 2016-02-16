@@ -1,3 +1,5 @@
 ---
 # defaults file for Nainterceptor.gogs
 gogs_domain: localhost
+gogs_secret_key: "!#@FDEWREWR&*("
+gogs_install_lock: true
