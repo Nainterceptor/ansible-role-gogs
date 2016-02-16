@@ -1,2 +1,3 @@
 ---
 # defaults file for Nainterceptor.gogs
+gogs_domain: localhost
